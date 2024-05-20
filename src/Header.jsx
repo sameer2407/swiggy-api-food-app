@@ -17,22 +17,28 @@ const Header = () => {
   return (
     <div className="header flex flex-col md:flex-row justify-between border-[1px] border-solid border-black md:h-[20vh] p-4 md:p-8">
       <div className="logo-container flex items-center">
-        <img className="logo w-12 h-auto md:w-20" src={logoLink} alt="Logo" />
+        <Link to={"/"}>
+          <img
+            className="logo w-12 h-auto md:w-20 cursor-pointer"
+            src={logoLink}
+            alt="Logo"
+          />
+        </Link>
       </div>
       <div className="nav-items flex flex-col md:flex-row md:items-center">
         <ul className="flex flex-col md:flex-row md:gap-4">
-          <li className="p-2">
+          <li className="">
             <Link to="/">Home</Link>
           </li>
-          <li className="p-2">
+          <li className="">
             <Link to="/about">About Us</Link>
           </li>
-          <li className="p-2">
+          <li className=" ">
             <Link to="/contact">Contact Us</Link>
           </li>
-          <li className="p-2">
+          <li className=" ">
             <button
-              className="lgn-btn  top-rated-btn m-[10px] cursor-pointer rounded border-[1px] p-1 bg-orange-400  "
+              className="lgn-btn  top-rated-btn  cursor-pointer rounded border-[1px] p-1 bg-orange-400  "
               onClick={() => {
                 loginClick();
               }}

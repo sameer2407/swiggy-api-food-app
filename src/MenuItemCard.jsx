@@ -1,5 +1,6 @@
 import React from "react";
 
+import { itemImgLink } from "./utils/contents";
 const MenuItemCard = ({ name, description, Price, vegClassifier, imageId }) => {
   const truncateText = (text, maxLength) => {
     if (text.length > maxLength) {
@@ -21,7 +22,7 @@ const MenuItemCard = ({ name, description, Price, vegClassifier, imageId }) => {
       <div className="relative item-image">
         <img
           className="h-[144px] w-[156px] rounded-xl"
-          src={`https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_300,h_300,c_fit/${imageId}`}
+          src={`${itemImgLink}${imageId}`}
         ></img>
         <button className="addButton absolute bottom-0 transform translate-y-1/2 left-1/2 -translate-x-1/2 bg-green-500 text-white py-1 px-2  rounded-md  font-bold">
           Add +

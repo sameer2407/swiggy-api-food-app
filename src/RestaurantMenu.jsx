@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import MenuItemCard from "./MenuItemCard";
 import { useParams } from "react-router-dom";
 
+import { menuApiLink } from "./utils/contents";
+
 const RestaurantMenu = () => {
   const [resInfo, setResInfo] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -10,9 +12,7 @@ const RestaurantMenu = () => {
   useEffect(() => {
     const fetchMenu = async () => {
       try {
-        const response = await fetch(
-          `https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=28.6126255&lng=77.04108959999999&restaurantId=${resId}`
-        );
+        const response = await fetch(`${menuApiLink}${resId}`);
         const json = await response.json();
         setResInfo(json);
       } catch (err) {
@@ -51,17 +51,21 @@ const RestaurantMenu = () => {
   if (!menuItems || menuItems.length === 0) {
     return <div>No menu items available</div>;
   }
-  // data.cards[4].groupedCard.cardGroupMap.REGULAR.cards[1].card.card.itemCards[9].card.info.imageId
+
   return (
     <div className="menu">
-      <h1>{name}</h1>
-      <h2>{cuisines?.join(", ")}</h2>
-      <h3>{costForTwoMessage}</h3>
+      <center className="  pt-3 ">
+        <h1 className=" font-bold  text-3xl text-orange-700 ">{name}</h1>
+        <h2 className=" font-semibold text-base text-gray-800 italic">
+          {cuisines?.join(", ")}
+        </h2>
+        <h3 className="  font-medium  text-blue-500">{costForTwoMessage}</h3>
+      </center>
+
       {menuItems.map((menuItem, index) => {
         const { name, description, itemAttribute, imageId } =
           menuItem.card.info;
 
-        // Destructure defaultPrice and use defaultprice as a fallback
         const { defaultPrice, price } = menuItem.card.info;
         const Price = defaultPrice !== undefined ? defaultPrice : price;
 
