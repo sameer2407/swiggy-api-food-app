@@ -24,7 +24,7 @@ This is a React-based web application that helps users find and explore restaura
 
 3. Start the development server:
     ```bash
-    npm start
+    npm run dev
     ```
 
 4. Open your web browser and navigate to `http://localhost:3000`.
