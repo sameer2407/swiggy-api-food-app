@@ -31,7 +31,7 @@ export const AppRouter = createBrowserRouter([
       },
       {
         path: "/about",
-        element: <About></About>,
+        element: <About name={"Sameer"} location={"Delhi"}></About>,
       },
       {
         path: "/contact",

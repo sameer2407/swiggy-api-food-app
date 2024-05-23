@@ -10,23 +10,56 @@ const Body = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchText, setSearchText] = useState("");
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
 
   useEffect(() => {
-    fetchData();
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setLatitude(position.coords.latitude);
+        setLongitude(position.coords.longitude);
+      },
+      (error) => {
+        console.error("Error getting current geolocation:", error);
+        setLoading(false);
+        setError("Failed to get geolocation");
+      }
+    );
   }, []);
+
+  useEffect(() => {
+    if (latitude && longitude) {
+      fetchData();
+    }
+  }, [latitude, longitude]);
 
   const fetchData = async () => {
     try {
       const apiData = await fetch(
-        "https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.57280&lng=77.07151&page_type=DESKTOP_WEB_LISTING"
+        `https://www.swiggy.com/dapi/restaurants/list/v5?lat=${latitude}&lng=${longitude}&page_type=DESKTOP_WEB_LISTING`
       );
       const restData2 = await apiData.json();
-      const restaurants =
-        restData2.data.cards[1].card.card.gridElements.infoWithStyle
-          .restaurants;
 
-      setData(restaurants);
-      setCopyData(restaurants);
+      console.log("API Response:", restData2);
+
+      if (restData2?.data?.cards) {
+        let restaurants = [];
+        for (const card of restData2.data.cards) {
+          if (card?.card?.card?.gridElements?.infoWithStyle?.restaurants) {
+            restaurants = card.card.card.gridElements.infoWithStyle.restaurants;
+            break;
+          }
+        }
+
+        if (restaurants.length > 0) {
+          setData(restaurants);
+          setCopyData(restaurants);
+        } else {
+          throw new Error("Restaurants data not found in response");
+        }
+      } else {
+        throw new Error("Unexpected response structure");
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
       setError("Failed to fetch data");
@@ -92,8 +125,12 @@ const Body = () => {
       </div>
       <div className="res-container flex flex-wrap">
         {data.map((restaurant) => (
-          <Link to={`/restaurants/${restaurant.info.id}`}>
-            <RestaurantCard key={restaurant.info.id} restData={restaurant} />
+          <Link
+            key={restaurant.info.id}
+            to={`/restaurants/${restaurant.info.id}`}
+            state={{ latitude, longitude }}
+          >
+            <RestaurantCard restData={restaurant} />
           </Link>
         ))}
       </div>
