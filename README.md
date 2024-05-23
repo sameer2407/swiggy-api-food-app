@@ -1,4 +1,4 @@
-# Restaurant Finder Application
+# Swiggy API Food App
 
 ## Overview
 
@@ -13,8 +13,8 @@ This is a React-based web application that helps users find and explore restaura
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/restaurant-finder.git
-    cd restaurant-finder
+    git clone https://github.com/yourusername/swiggy-api-food-app.git
+    cd swiggy-api-food-app
     ```
 
 2. Install the dependencies:
@@ -71,4 +71,4 @@ This project is licensed under the MIT License.
 
 ## Contact
 
-For any issues or questions, please open an issue on the [GitHub repository](https://github.com/yourusername/restaurant-finder).
+For any issues or questions, please open an issue on the [GitHub repository](https://github.com/yourusername/swiggy-api-food-app).
