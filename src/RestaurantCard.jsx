@@ -11,7 +11,7 @@ const RestaurantCard = ({ restData }) => {
   const imgId = restData.info.cloudinaryImageId;
 
   return (
-    <div className="res-card w-[200px] h-[400px] border-[1px] border-solid overflow-hidden  m-[10px] transition ease-in-out delay-150 hover:-translate-y-1  hover:scale-100  duration-300 text-sm rounded-xl">
+    <div className="res-card w-[180px] h-[350px] border-[1px] border-solid overflow-hidden  m-[10px] transition ease-in-out delay-150 hover:-translate-y-1  hover:scale-100  duration-300 text-sm rounded-xl">
       <img
         className="food-img  w-[100%] h-[50%] rounded-xl"
         src={`${imgLink}${imgId}`}

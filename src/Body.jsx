@@ -3,6 +3,7 @@ import RestaurantCard from "./RestaurantCard";
 import restData from "./utils/mockData";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
+import useOnlineStatus from "./utils/useOnlineStatus";
 
 const Body = () => {
   const [data, setData] = useState(restData);
@@ -12,6 +13,8 @@ const Body = () => {
   const [searchText, setSearchText] = useState("");
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
+
+  const onlineStatus = useOnlineStatus();
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -95,6 +98,19 @@ const Body = () => {
 
   if (error) {
     return <div>{error}</div>;
+  }
+
+  if (onlineStatus === false) {
+    return (
+      <div className="bg-white p-8 rounded-lg shadow-md text-center">
+        <h1 className="text-2xl font-bold text-red-600 mb-4">
+          Looks like you are offline!
+        </h1>
+        <p className="text-gray-700">
+          Please check your internet connection and try again.
+        </p>
+      </div>
+    );
   }
 
   return (

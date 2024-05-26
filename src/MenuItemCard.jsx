@@ -24,7 +24,7 @@ const MenuItemCard = ({ name, description, Price, vegClassifier, imageId }) => {
           className="h-[144px] w-[156px] rounded-xl"
           src={`${itemImgLink}${imageId}`}
         ></img>
-        <button className="addButton absolute bottom-0 transform translate-y-1/2 left-1/2 -translate-x-1/2 bg-green-500 text-white py-1 px-2  rounded-md  font-bold">
+        <button className="addButton absolute bottom-0 transform translate-y-1/2 left-1/2 -translate-x-1/2 bg-green-500 text-white py-1 px-2  rounded-md  font-bold ">
           Add +
         </button>
       </div>
