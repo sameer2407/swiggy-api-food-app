@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import "./App.css";
 import Header from "./Header";
@@ -9,15 +9,33 @@ import Contact from "./Contact";
 import Error from "./Error";
 import { Outlet } from "react-router-dom";
 import RestaurantMenu from "./RestaurantMenu";
+import Login from "./Login";
+import UserContext from "./utils/UserContext";
+import { Provider } from "react-redux";
+import appStore from "./utils/appStore";
+import Cart from "./Cart";
+import Register from "./Register";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [namee, setName] = useState();
+
+  useEffect(() => {
+    const student = {
+      name: "Sameer",
+    };
+
+    setName(student.name);
+  });
 
   return (
-    <>
-      <Header></Header>
-      <Outlet></Outlet>
-    </>
+    <Provider store={appStore}>
+      <>
+        <UserContext.Provider value={{ loggedInUser: `${namee}` }}>
+          <Header></Header>
+          <Outlet></Outlet>
+        </UserContext.Provider>
+      </>
+    </Provider>
   );
 }
 export const AppRouter = createBrowserRouter([
@@ -31,7 +49,7 @@ export const AppRouter = createBrowserRouter([
       },
       {
         path: "/about",
-        element: <About name={"Sameer"} location={"Delhi"}></About>,
+        element: <About></About>,
       },
       {
         path: "/contact",
@@ -41,8 +59,21 @@ export const AppRouter = createBrowserRouter([
         path: "/restaurants/:resId",
         element: <RestaurantMenu></RestaurantMenu>,
       },
+
+      {
+        path: "/cart",
+        element: <Cart></Cart>,
+      },
     ],
     errorElement: <Error></Error>,
+  },
+  {
+    path: "/login",
+    element: <Login></Login>,
+  },
+  {
+    path: "/signup",
+    element: <Register></Register>,
   },
 ]);
 

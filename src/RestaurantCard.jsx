@@ -11,7 +11,7 @@ const RestaurantCard = ({ restData }) => {
   const imgId = restData.info.cloudinaryImageId;
 
   return (
-    <div className="res-card w-[180px] h-[350px] border-[1px] border-solid overflow-hidden  m-[10px] transition ease-in-out delay-150 hover:-translate-y-1  hover:scale-100  duration-300 text-sm rounded-xl">
+    <div className="res-card  bg-gray-50 w-[180px] h-[340px] border-[1px] border-solid overflow-hidden  m-[10px] transition ease-in-out delay-150 hover:-translate-y-1  hover:scale-100  duration-300 text-sm rounded-xl">
       <img
         className="food-img  w-[100%] h-[50%] rounded-xl"
         src={`${imgLink}${imgId}`}
@@ -25,6 +25,20 @@ const RestaurantCard = ({ restData }) => {
       <p className="ratings mb-1 ml-[2px] pl-[2px]">{cost}</p>
     </div>
   );
+};
+
+export const withGoodRating = (RestaurantCard) => {
+  return (props) => {
+    return (
+      <div className=" ">
+        <label className="  rounded-lg absolute bg-black  text-white z-[1]   font-mono  font-normal  text-xs  m-1 p-1 ">
+          Good Rating
+        </label>
+
+        <RestaurantCard {...props}></RestaurantCard>
+      </div>
+    );
+  };
 };
 
 export default RestaurantCard;

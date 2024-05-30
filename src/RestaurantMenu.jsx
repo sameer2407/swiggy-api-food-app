@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import MenuItemCard from "./MenuItemCard";
 import { useParams, useLocation } from "react-router-dom";
+import ResCat from "./ResCat";
 
 const RestaurantMenu = () => {
   const [resInfo, setResInfo] = useState(null);
@@ -10,16 +10,16 @@ const RestaurantMenu = () => {
   const location = useLocation();
   const { latitude, longitude } = location.state || {};
 
+  const [showIndex, setShowIndex] = useState(null);
+
   useEffect(() => {
     const fetchMenu = async () => {
       try {
         const response = await fetch(
           `https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=${latitude}&lng=${longitude}&restaurantId=${resId}`
         );
-        const json = await response.json();
-        console.log("Menu API Response:", json); // Log the entire response
-
-        setResInfo(json);
+        const data = await response.json();
+        setResInfo(data);
       } catch (err) {
         console.error("Error fetching menu:", err);
         setError("Failed to fetch menu");
@@ -54,15 +54,13 @@ const RestaurantMenu = () => {
 
   const { name, cuisines, costForTwoMessage } = restaurantInfo;
 
-  const menuItems = resInfo?.data?.cards
+  const categories = resInfo?.data?.cards
     ?.find((card) => card?.groupedCard?.cardGroupMap?.REGULAR?.cards)
-    ?.groupedCard?.cardGroupMap?.REGULAR?.cards?.find(
-      (card) => card?.card?.card?.itemCards
-    )?.card?.card?.itemCards;
-
-  if (!menuItems || menuItems.length === 0) {
-    return <div>No menu items available</div>;
-  }
+    ?.groupedCard?.cardGroupMap?.REGULAR?.cards?.filter(
+      (c) =>
+        c?.card?.card?.["@type"] ===
+        "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+    );
 
   return (
     <div className="menu">
@@ -74,24 +72,14 @@ const RestaurantMenu = () => {
         <h3 className="font-medium text-blue-500">{costForTwoMessage}</h3>
       </center>
 
-      {menuItems.map((menuItem, index) => {
-        const { name, description, itemAttribute, imageId } =
-          menuItem.card.info;
-
-        const { defaultPrice, price } = menuItem.card.info;
-        const Price = defaultPrice !== undefined ? defaultPrice : price;
-
-        return (
-          <MenuItemCard
-            key={index}
-            name={name}
-            description={description}
-            vegClassifier={itemAttribute?.vegClassifier}
-            imageId={imageId}
-            Price={Price}
-          />
-        );
-      })}
+      {categories?.map((category, index) => (
+        <ResCat
+          key={index}
+          data={category?.card?.card}
+          showItems={index === showIndex}
+          setShowIndex={() => setShowIndex(index === showIndex ? null : index)}
+        />
+      ))}
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard, { withGoodRating } from "./RestaurantCard";
 import restData from "./utils/mockData";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
@@ -13,6 +13,8 @@ const Body = () => {
   const [searchText, setSearchText] = useState("");
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
+
+  const RestaurantCardWithGoodRating = withGoodRating(RestaurantCard);
 
   const onlineStatus = useOnlineStatus();
 
@@ -42,8 +44,6 @@ const Body = () => {
         `https://www.swiggy.com/dapi/restaurants/list/v5?lat=${latitude}&lng=${longitude}&page_type=DESKTOP_WEB_LISTING`
       );
       const restData2 = await apiData.json();
-
-      console.log("API Response:", restData2);
 
       if (restData2?.data?.cards) {
         let restaurants = [];
@@ -123,21 +123,21 @@ const Body = () => {
             onChange={(e) => {
               setSearchText(e.target.value);
             }}
-            className="search-box border rounded-sm border-solid m-[2px] p-1"
+            className="search-box   text-gray-700 text-sm border  border-gray-300  outline-none rounded-sm border-solid m-[2px] p-1"
           />
           <button
-            className="m-[2px] cursor-pointer rounded border-[1px] p-1 bg-orange-400"
+            className="m-[2px] text-sm  text-white cursor-pointer rounded border-[1px] p-1 bg-orange-400"
             onClick={handleSearch}
           >
             Search
           </button>
+          <button
+            className="top-rated-btn  text-sm  text-white m-[2px] cursor-pointer rounded border-[1px] p-1 bg-orange-400"
+            onClick={handleTopRated}
+          >
+            Top Rated Restaurants
+          </button>
         </div>
-        <button
-          className="top-rated-btn m-[2px] cursor-pointer rounded border-[1px] p-1 bg-orange-400"
-          onClick={handleTopRated}
-        >
-          Top Rated Restaurants
-        </button>
       </div>
       <div className="res-container flex flex-wrap">
         {data.map((restaurant) => (
@@ -146,7 +146,11 @@ const Body = () => {
             to={`/restaurants/${restaurant.info.id}`}
             state={{ latitude, longitude }}
           >
-            <RestaurantCard restData={restaurant} />
+            {restaurant.info.avgRating > 4.2 ? (
+              <RestaurantCardWithGoodRating restData={restaurant} />
+            ) : (
+              <RestaurantCard restData={restaurant} />
+            )}
           </Link>
         ))}
       </div>
