@@ -1,14 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { imgLink } from "./utils/contents";
-import { useDispatch } from "react-redux";
-import { addItem } from "./utils/cartSlice";
+import Remove from "./Remove";
+import Add from "./Add";
 
 const ItemList = ({ items }) => {
-  const dispatch = useDispatch();
+  // Initialize an array of added statuses with false
+  const [addedStatuses, setAddedStatuses] = useState(items.map(() => false));
+
+  // Function to update the added status of an item
+  const setAddedStatus = (index, status) => {
+    const newStatuses = [...addedStatuses];
+    newStatuses[index] = status;
+    setAddedStatuses(newStatuses);
+  };
 
   return (
     <div>
-      {items.map((item) => (
+      {items.map((item, index) => (
         <div
           key={item.card.info.id}
           className="p-5 m-2 border-b-2 border-gray-200 text-base text-left flex justify-around"
@@ -32,14 +40,19 @@ const ItemList = ({ items }) => {
               src={`${imgLink}${item.card.info.imageId}`}
               alt={item.card.info.name}
             />
-            <button
-              className="addButton absolute bottom-0 transform translate-y-1/2 left-1/2 -translate-x-1/2 bg-green-500 text-white py-1 px-2 rounded-md font-bold"
-              onClick={() => {
-                dispatch(addItem(item)); // Corrected item parameter
-              }}
-            >
-              Add +
-            </button>
+            {addedStatuses[index] ? (
+              <Remove
+                added={addedStatuses[index]}
+                setAdded={() => setAddedStatus(index, false)}
+                item={item}
+              />
+            ) : (
+              <Add
+                added={addedStatuses[index]}
+                setAdded={() => setAddedStatus(index, true)}
+                item={item}
+              />
+            )}
           </div>
         </div>
       ))}

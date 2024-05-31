@@ -9,6 +9,8 @@ import NoItems from "./NoItems";
 const Cart = () => {
   const cartItems = useSelector((store) => store.cart.items);
 
+  console.log(cartItems);
+
   const dispatch = useDispatch();
   if (cartItems.length == 0) {
     return (
