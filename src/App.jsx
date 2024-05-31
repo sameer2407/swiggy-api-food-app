@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-
 import "./App.css";
 import Header from "./Header";
 import Body from "./Body";
@@ -15,6 +14,8 @@ import { Provider } from "react-redux";
 import appStore from "./utils/appStore";
 import Cart from "./Cart";
 import Register from "./Register";
+
+import Order from "./Order";
 
 function App() {
   const [namee, setName] = useState();
@@ -63,6 +64,10 @@ export const AppRouter = createBrowserRouter([
       {
         path: "/cart",
         element: <Cart></Cart>,
+      },
+      {
+        path: "/cart/order",
+        element: <Order></Order>,
       },
     ],
     errorElement: <Error></Error>,

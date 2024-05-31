@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearCart } from "./utils/cartSlice";
 import ItemCartList from "./ItemCartList";
 import NoItems from "./NoItems";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
   const cartItems = useSelector((store) => store.cart.items);
@@ -34,14 +35,12 @@ const Cart = () => {
           <h2 className="text-normal text-gray-600 font-bold">
             Total Price: ₹ {totalPrice / 100}/-
           </h2>
-          <button
-            className="p-2 mt-2 bg-green-500 text-white rounded-lg"
-            onClick={() => {
-              alert("Order placed!");
-            }}
-          >
-            Order
-          </button>
+          <Link to={"/cart/order"}>
+            <button className="p-2 mt-2 bg-green-500 text-white rounded-lg">
+              Order
+            </button>
+          </Link>
+
           <button
             className="p-2 m-2 bg-red-400 text-white rounded-lg"
             onClick={() => {
