@@ -1,10 +1,10 @@
 import React from "react";
-
+import CartImage from "./assets/empty-cart.png";
 const NoItems = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
       <img
-        src={"public/static/images/empty-cart.png"}
+        src={CartImage}
         alt="Empty Cart"
         className="h-48 w-48 sm:h-64 sm:w-64 md:h-96 md:w-96 mb-4"
       />
