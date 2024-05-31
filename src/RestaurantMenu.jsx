@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import ResCat from "./ResCat";
+import ShimmerItemList from "./ShimmerItemList";
 
 const RestaurantMenu = () => {
   const [resInfo, setResInfo] = useState(null);
@@ -10,7 +11,9 @@ const RestaurantMenu = () => {
   const location = useLocation();
   const { latitude, longitude } = location.state || {};
 
-  const [showIndex, setShowIndex] = useState(null);
+  const [showIndex, setShowIndex] = useState(0);
+
+  console.log("hi therefdgdfgdfg");
 
   useEffect(() => {
     const fetchMenu = async () => {
@@ -37,7 +40,11 @@ const RestaurantMenu = () => {
   }, [latitude, longitude, resId]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <ShimmerItemList></ShimmerItemList>
+      </div>
+    );
   }
 
   if (error) {
