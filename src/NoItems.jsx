@@ -14,7 +14,7 @@ const NoItems = () => {
       </h1>
       <Link to={"/"}>
         <button className="bg-orange-500 text-white py-2 px-4 rounded-md hover:bg-orange-600">
-          Go Back Home
+          Go Back to Home
         </button>
       </Link>
     </div>
